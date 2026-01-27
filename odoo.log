@@ -1,0 +1,20 @@
+2026-01-17 08:10:21,064 9704 INFO ? odoo: Odoo version 18.0-20260117 
+2026-01-17 08:10:21,065 9704 INFO ? odoo: Using configuration file at C:\Users\JOSHUA\Documents\odoo18\server\odoo.conf 
+2026-01-17 08:10:21,066 9704 INFO ? odoo: addons paths: ['C:\\Users\\JOSHUA\\Documents\\odoo18\\server\\odoo\\addons', 'c:\\users\\joshua\\documents\\odoo18\\sessions\\addons\\18.0', 'c:\\users\\joshua\\documents\\odoo18\\server\\odoo\\addons'] 
+2026-01-17 08:10:21,068 9704 INFO ? odoo: database: openpg@localhost:5432 
+2026-01-17 08:10:29,057 9704 INFO ? odoo.addons.base.models.ir_actions_report: Will use the Wkhtmltopdf binary at C:\Users\JOSHUA\Documents\odoo18\thirdparty\wkhtmltopdf.exe 
+2026-01-17 08:10:29,313 9704 INFO ? odoo.addons.base.models.ir_actions_report: You need Wkhtmltoimage to generate images from html. 
+2026-01-17 08:10:41,391 9704 INFO ? odoo.service.server: Initiating shutdown 
+2026-01-17 08:10:41,392 9704 INFO ? odoo.service.server: Hit CTRL-C again or send a second signal to force the shutdown. 
+2026-01-17 08:10:41,407 9704 INFO ? odoo.service.server: A child process was found, pid is psutil.Process(pid=11420, name='conhost.exe', status='running', started='08:08:38'), process may hang 
+2026-01-17 08:12:25,687 11396 INFO ? odoo: Odoo version 18.0-20260117 
+2026-01-17 08:12:25,690 11396 INFO ? odoo: Using configuration file at C:\Users\JOSHUA\Documents\odoo18\server\odoo.conf 
+2026-01-17 08:12:25,692 11396 INFO ? odoo: addons paths: ['C:\\Users\\JOSHUA\\Documents\\odoo18\\server\\odoo\\addons', 'c:\\users\\joshua\\documents\\odoo18\\sessions\\addons\\18.0', 'c:\\users\\joshua\\documents\\odoo18\\server\\odoo\\addons'] 
+2026-01-17 08:12:25,693 11396 INFO ? odoo: database: openpg@localhost:5432 
+2026-01-17 08:12:27,357 11396 INFO ? odoo.addons.base.models.ir_actions_report: Will use the Wkhtmltopdf binary at C:\Users\JOSHUA\Documents\odoo18\thirdparty\wkhtmltopdf.exe 
+2026-01-17 08:12:27,511 11396 INFO ? odoo.addons.base.models.ir_actions_report: You need Wkhtmltoimage to generate images from html. 
+2026-01-17 08:12:31,707 11396 INFO ? odoo.service.server: HTTP service (werkzeug) running on LAPTOP-ONOAQOV4:8069 
+2026-01-17 08:12:35,799 11396 INFO ? odoo.sql_db: Connection to the database failed 
+2026-01-17 08:12:39,886 11396 INFO ? odoo.sql_db: Connection to the database failed 
+2026-01-17 08:33:23,501 11396 INFO ? odoo.service.server: Initiating shutdown 
+2026-01-17 08:33:23,532 11396 INFO ? odoo.service.server: Hit CTRL-C again or send a second signal to force the shutdown. 

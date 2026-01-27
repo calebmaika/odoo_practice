@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- MENU ITEMS - Define menus AFTER actions they reference -->
+        <menuitem id="simple_task_menu_root" name="Tasks" sequence="10"/>
+        <menuitem 
+                id="simple_task_menu_items" 
+                parent="simple_task_menu_root" 
+                name="My Tasks" 
+                action="simple_task_action_window" 
+                sequence="1"/>
+
+
+        <!-- VIEWS - Define views first -->
+        <!-- This is the LIST VIEW - shows all tasks like a table -->
+        <record id="simple_task_view_tree" model="ir.ui.view">
+            <field name="name">Task List</field>
+            <field name="model">simple.task</field>
+            <field name="arch" type="xml">
+                <list>
+                    <field name="name" string="Task Name"/>
+                    <field name="priority" string="Priority"/>
+                    <field name="is_done" string="Done?"/>
+                    <field name="assigned_to" string="Assigned To"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- This is the FORM VIEW - shows one task with all details -->
+        <record id="simple_task_view_form" model="ir.ui.view">
+            <field name="name">Task Form</field>
+            <field name="model">simple.task</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <h1>
+                            <field name="name" placeholder="Enter task name..."/>
+                        </h1>
+                        <group>
+                            <group>
+                                <field name="priority" widget="radio"/>
+                                <field name="assigned_to"/>
+                                <field name="created_date" readonly="True"/>
+                            </group>
+                            <group>
+                                <field name="is_done" label="Mark as Done" widget="boolean_toggle"/>
+                            </group>
+                        </group>
+                        <separator string="Description"/>
+                        <field name="description" nolabel="1" placeholder="Add more details..."/>
+                        <footer>
+                            <button name="mark_as_done" type="object" string="Mark Done" class="btn-primary"/>
+                            <button name="mark_as_not_done" type="object" string="Mark Pending"/>
+                            <button name="reset_priority" type="object" string="Reset Priority"/>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- This is SEARCH VIEW -->
+        <record id="simple_task_view_search" model="ir.ui.view">
+            <field name="name">Task Search</field>
+            <field name="model">simple.task</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name" string="Task Name"/>
+                    <field name="assigned_to" string="Assigned To"/>
+                    <filter name="filter_done" string="Done Tasks" domain="[('is_done', '=', True)]"/>
+                    <filter name="filter_pending" string="Pending Tasks" domain="[('is_done', '=', False)]"/>
+                    <filter name="filter_high_priority" string="High Priority" domain="[('priority', '=', 'high')]"/>
+                    <group expand="0" string="Group By">
+                        <filter name="group_by_priority" string="Priority" context="{'group_by':'priority'}"/>
+                        <filter name="group_by_assigned" string="Assigned To" context="{'group_by':'assigned_to'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- ACTION - Define action BEFORE menu items that reference it -->
+        <record id="simple_task_action_window" model="ir.actions.act_window">
+            <field name="name">Tasks</field>
+            <field name="res_model">simple.task</field>
+            <field name="view_mode">list,form</field>
+            <field name="search_view_id" ref="simple_task_view_search"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No tasks yet! Create your first task to get started.
+                </p>
+            </field>
+        </record>
+    </data> 
+</odoo>
