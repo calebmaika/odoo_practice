@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Views for Journal Entries (erp.journal.entry model)
+    
+    This file defines:
+    1. Kanban View: Visual workflow board
+    2. Tree View: List of entries
+    3. Form View: Detailed entry with lines
+    4. Action: Menu action definition
+-->
+
+<odoo>
+    <!-- 
+        ACTION: Defines default view when "Journal Entries" menu is clicked
+    -->
+    <record id="action_erp_journal_entry" model="ir.actions.act_window">
+        <field name="name">Journal Entries</field>
+        <field name="res_model">erp.journal.entry</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <!-- 
+            view_mode: Order of views available
+            kanban: Default view (shown first)
+            tree: List view
+            form: Detail view
+        -->
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="0_view_nocontent_smiling_face">
+                Create your first journal entry!
+            </p>
+            <p>
+                Journal entries record all accounting transactions.
+                Each entry must have balance debits and credits.
+            </p>
+        </field>
+    </record>
+
+    <!-- 
+        KANBAN VIEW
+        Shows entries as cards, grouped by state (Draft/Posted)
+    -->
+    <record id="view_erp_journal_entry_kanban" model="ir.ui.view">
+        <field name="name">erp.journal.entry.kanban</field>
+        <field name="model">erp.journal.entry</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" class="o_kanban_dashboard">
+                <!-- 
+                    default_group_by="state": Groups cards by state field
+                    Creates columns: Draft | Posted
+                -->
+                <field name="name"/>
+                <field name="date"/>
+                <field name="state"/>
+                <field name="line_ids"/>
+
+                <!-- Templates: How each card looks -->
+                <templates>
+                    <t t-name="kanban-box">
+                        <!-- 
+                            Card container oe_kanban_global_click: Makes entire card clickable
+                        -->
+                        <div class="oe_kanban_global_click">
+                            <!-- Card header -->
+                            <div class="o_kanban_content">
+                                <div class="o_kanban_record_top">
+                                    <div class="o_kanban_record_headings">
+                                        <!-- Reference number -->
+                                        <strong class="o_kanban_record_title">
+                                            <field name="name"/>
+                                        </strong>
+                                    </div>
+                                </div>
+
+                                <!-- Card body -->
+                                <div class="o_kanban_record_body">
+                                    <div>Date:<field name="date"/></div>
+                                    <div>State:
+                                        <field name="state"
+                                                widget="badge"
+                                                decoration-success="state == 'posted'"
+                                                decoration-info="state == 'draft'"/>
+                                    </div>
+                                    <!-- Widget="badge": colored badge decoration -->
+                                </div>
+
+                                <!-- Card footer: show line count -->
+                                <div class="o_kanban_record_bottom">
+                                    <div class="oe_kanban_bottom_left">
+                                        Lines: <field name="line_ids" widget="statinfo"/>
+                                        <!-- widget="statinfo": Shows count of related records -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- 
+        TREE VIEW (List View)
+        Shows entries in a table
+    -->
+    <record id="view_erp_journal_entry_tree" model="ir.ui.view">
+        <field name="name">erp.journal.entry.tree</field>
+        <field name="model">erp.journal.entry</field>
+        <field name="arch" type="xml">
+            <tree string="Journal Entries" decoration-muted="state == 'posted'">
+                <!-- 
+                    decoration-muted: Posted entries appear grayed out
+                -->
+                <field name="name"/>
+                <field name="date"/>
+                <field name="state" widget="badge"/>
+                <field name="line_ids" widget="many2many_tags" options="{'colord_field': 'state'}"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- 
+        FORM VIEW
+        Shows entry details with lines in a notebook tab
+    -->
+    <record id="view_erp_journal_entry_form" model="ir.ui.view">
+        <field name="name">erp.journal.entry.form</field>
+        <field name="model">erp.journal.entry</field>
+        <field name="arch" type="xml">
+            <form string="Journal Entry">
+                <!-- Header -->
+                <header>
+                    <button name="action_post"
+                            type="object"
+                            string="Post Entry"
+                            class="oe_hightlight"
+                            attrs="{'invisible':[('state', '=', 'posted')]}"
+                            confirm="Are you sure you want to post this entry? It cannot be edited afterwards."/>
+                    <!-- 
+                        type="object": Calls Python method on model
+                        class="oe_highlight": Primary button styling (green)
+                        attrs: Conditional visibility (hide if already posted)
+                        confirm: Shows confirmation dialog before action
+                    -->
+                    <button name="action_draft"
+                            type="object"
+                            string="Reset to Draft"
+                            attrs="{'invisible: [('state', '=', 'draft')]'}"/>
+                    <field name="state"
+                            widget="statusbar"
+                            statusbar_visible="draft,posted"/>
+                    <!-- 
+                        widget="statusbar": Shows workflow state as progress bar
+                        statusbar_visible: Which states to show
+                    -->
+                </header>
+
+                <!-- SHeet: Main content -->
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="date"/>
+                        </group>
+                        <group>
+                            <field name="state" readonly="1"/>
+                        </group>
+                    </group>
+
+                    <!-- Notebook: Tabbed interface for lines -->
+                    <notebook>
+                        <page string="Entry Lines" name="lines">
+                            <!-- 
+                                Pne2many field: shows journal items 
+                                Creates editable inline list
+                            -->
+                            <field name="line_ids" nolabel="1">
+                                <tree editable="bottom">
+                                    <!-- 
+                                        editable="bottom": New lines added at bottom 
+                                        Alternative: "top" adds at top
+                                    -->
+                                    <field name="account_id" options="{'no_create': True}"/>
+                                    <!-- 
+                                        options="{'no_create':True}"
+                                        Prevents creating accounts from here
+                                    -->
+                                    <field name="label"/>
+                                    <field name="debit"/>
+                                    <field name="credit"/>
+                                    <field name="account_code" readonly="1"/>
+                                    <field name="account_balance" readonly="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

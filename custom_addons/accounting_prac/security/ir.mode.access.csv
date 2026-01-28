@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_erp_account,erp.account,model_erp_account,base.group_user,1,1,1,1
+access_erp_journal_entry,erp.journal.entry,model_erp_journal_entry,base.group_user,1,1,1,1
+access_erp_journal_item,erp.journal.item,model_erp_journal_item,base.group_user,1,1,1,1

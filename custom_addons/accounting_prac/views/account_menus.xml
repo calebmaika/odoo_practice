@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Menu Structure for Accounting Module
+    
+    This file defines the menu hierarchy that appears in Odoo's main menu bar.
+    Menus are organized in a tree structure with parent and child menus.
+-->
+
+<odoo>
+    <!-- 
+        Root Menu: "Accounting"
+        This appears in the main menu bar at the top of Odoo
+    -->
+    <menuitem
+        id="menu_accounting_root"
+        name="Accounting"
+        sequence="10"
+        web_icon="accounting,static/description/icon.png"
+    />
+
+    <!-- 
+        Submenu: "Configuration"
+        Parent menu: accounting_root
+        Contains setup and configuration options
+    -->
+    <menuitem
+        id="menu_accounting_config"
+        name="Configuration"
+        parent="menu_accounting_root"
+        sequence="10"
+    />
+
+    <!-- 
+        Menu Item: "Chart of Accounts"
+        Opens the list view of accounts
+        action: Points to the action defined in account_views.xml
+    -->
+    <menuitem
+        id="menu_accounting_accounts"
+        name="Chart of Accounts"
+        parent="menu_accounting_config"
+        action="action_erp_account_tree"
+        sequence="10"
+    />
+
+    <!-- 
+        Submenu: "Transactions"
+        Contains all transaction-related menus
+    -->
+    <menuitem
+        id="menu_accounting_transactions"
+        name="Transactions"
+        parent="menu_accounting_root"
+        sequence="20"
+    />
+
+    <!-- 
+        Menu Item: "Journal Entries"
+        Opens the kanban/list view of journal entries
+    -->
+    <menuitem
+        id="menu_accounting_journal_entries"
+        name="Journal Entries"
+        parent="menu_accounting_transactions"
+        action="action_erp_journal_entry"
+        sequence="10"
+    />
+</odoo>

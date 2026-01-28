@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Views for Chart of Accounts (erp.account model)
+    
+    This file defines:
+    1. Tree View (List): Shows all accounts in a table
+    2. Form View: Shows account details in a form
+    3. Action: Defines what happens when menu is clicked
+-->
+<odoo>
+    <!-- 
+        ACTION: Defines what view to show when menu is clicked
+        Actions are like "commands" that tell Odoo what to display
+    -->
+    <record id="action_erp_account_tree" model="ir.actions.act_window">
+        <field name="name">Chart of Accounts</field>
+        <field name="res_model">erp.account</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}<field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create your first account</p>
+            <p>
+                Accounts are the foundation of your accounting system.
+                Each account represents a category where money is tracked.
+            </p>
+        </field>
+    </record>
+
+    <!-- 
+        TREE VIEW (List View)
+        Shows accounts in a table format with columns
+    -->
+    <record id="view_erp_account_tree" model="ir.ui.view">
+        <field name="name">erp.account.tree</field>
+        <field name="model">erp.account</field>
+        <field name="arch" type="xml">
+            <tree string="Chart of Accounts" decoration-info="account_type=='asset'">
+                <!-- 
+                    decoration-info: CSS class for styling
+                    Makes asset accounts appear with info color (blue)
+                -->
+                <field name="code"/>
+                <field name="name"/>
+                <field name="account_type"/>
+                <field name="balance" sum="Total Balance"/>
+                <!-- 
+                    sum="Total Balance": Shows sum at bottom of column
+                    Useful for financial totals
+                -->
+            </tree>
+        </field>
+    </record>
+
+    <!-- 
+        FORM VIEW
+        Shows account details in a detailed form
+    -->
+    <record id="view_erp_account_form" model="ir.ui.view">
+        <field name="name">erp.account.form</field>
+        <field name="model">erp.account</field>
+        <field name="arch" type="xml">
+            <form string="Account">
+                <header></header>
+                <sheet>
+                    <!--Group: orgranizes fields into sections-->
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="name"/>
+                            <field name="account_type"/>
+                        </group>
+                        <group>
+                            <field name="blaance" readonly="1"/>
+                            <!-- readonly="1": Field cannot be edited. Balance is computed so it's readonly -->
+                        </group>
+                    </group>
+
+                    <!-- Notebook: Tabbed interface -->
+                    <notebook>
+                        <page string="Journal Items" name="items">
+                            <!-- 
+                                One2many field: Shows related journal items
+                                Creates an inline list view within the form
+                            -->
+                            <field name="item_ids" nolabel="1">
+                                <tree>
+                                    <field name="entry_id"/>
+                                    <field name="date" readonly="1"/>
+                                    <field name="debit"/>
+                                    <field name="credit"/>
+                                    <field name="label"/>
+                                </tree>                            
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>
