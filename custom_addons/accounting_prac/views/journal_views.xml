@@ -16,7 +16,7 @@
     <record id="action_erp_journal_entry" model="ir.actions.act_window">
         <field name="name">Journal Entries</field>
         <field name="res_model">erp.journal.entry</field>
-        <field name="view_mode">kanban,tree,form</field>
+        <field name="view_mode">kanban,list,form</field>
         <!-- 
             view_mode: Order of views available
             kanban: Default view (shown first)
@@ -106,7 +106,7 @@
         <field name="name">erp.journal.entry.tree</field>
         <field name="model">erp.journal.entry</field>
         <field name="arch" type="xml">
-            <tree string="Journal Entries" decoration-muted="state == 'posted'">
+            <list string="Journal Entries" decoration-muted="state == 'posted'">
                 <!-- 
                     decoration-muted: Posted entries appear grayed out
                 -->
@@ -114,7 +114,7 @@
                 <field name="date"/>
                 <field name="state" widget="badge"/>
                 <field name="line_ids" widget="many2many_tags" options="{'colord_field': 'state'}"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -133,7 +133,7 @@
                             type="object"
                             string="Post Entry"
                             class="oe_hightlight"
-                            attrs="{'invisible':[('state', '=', 'posted')]}"
+                            invisible="state == 'posted'"
                             confirm="Are you sure you want to post this entry? It cannot be edited afterwards."/>
                     <!-- 
                         type="object": Calls Python method on model
@@ -144,7 +144,7 @@
                     <button name="action_draft"
                             type="object"
                             string="Reset to Draft"
-                            attrs="{'invisible: [('state', '=', 'draft')]'}"/>
+                            invisible="state == 'draft'"/>
                     <field name="state"
                             widget="statusbar"
                             statusbar_visible="draft,posted"/>
@@ -174,7 +174,7 @@
                                 Creates editable inline list
                             -->
                             <field name="line_ids" nolabel="1">
-                                <tree editable="bottom">
+                                <list editable="bottom">
                                     <!-- 
                                         editable="bottom": New lines added at bottom 
                                         Alternative: "top" adds at top
@@ -189,7 +189,7 @@
                                     <field name="credit"/>
                                     <field name="account_code" readonly="1"/>
                                     <field name="account_balance" readonly="1"/>
-                                </tree>
+                                </list>
                             </field>
                         </page>
                     </notebook>

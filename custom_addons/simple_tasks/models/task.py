@@ -65,7 +65,7 @@ class SimpleTask(models.Model):
         '''Reset the priority to medium'''
         self.priority = 'medium'
 
-    @api.depends('created_data')
+    @api.depends('created_date')
     def _compute_days_old(self):
         """
             Calculate how many days old this task is

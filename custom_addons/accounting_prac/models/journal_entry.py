@@ -13,7 +13,7 @@ class ErpJournalEntry(models.Model):
     """
     _name = 'erp.journal.entry'
     _description = 'Journal Entry'
-    _order = 'data desc, id desc'
+    _order = 'date desc, id desc'
 
     name = fields.Char(string = 'Reference', required = True, default = '/')
     date = fields.Date(string = 'Date', default = fields.Date.context_today, required = True)
@@ -96,6 +96,13 @@ class ErpJournalItem(models.Model):
     _name = 'erp.journal.item'
     _description = 'Journal Item'
     _order = 'entry_id, id'
+
+    # date = fields.Date(
+    #     string - 'Date',
+    #     related = 'entry_id.date',
+    #     store = False,
+    #     readonly = True,
+    # )
 
     entry_id = fields.Many2one(
         'erp.journal.entry',

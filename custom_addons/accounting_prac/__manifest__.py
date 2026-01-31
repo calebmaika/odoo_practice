@@ -16,8 +16,9 @@
     'category': 'Accounting',
     
     # Your name or company name
-    'author': 'Your Name',
-    
+    'author': 'Caleb',
+    'webiste': 'https.//www.calebmaika.com',
+    'license': 'LGPL-3',
     # List of modules this module depends on
     # 'base' is always required - it provides core Odoo functionality
     'depends': ['base'],
@@ -25,12 +26,13 @@
     # List of data files to load when module is installed
     # Order matters! Security must load before views that reference it
     'data': [
-        'security/ir.model.access.csv',  # Load security rules first
-        'views/account_menus.xml',       # Then menus
-        'views/account_views.xml',       # Then account views
-        'views/journal_views.xml',       # Finally journal views
+        'security/ir.model.access.csv',  # Load security rules first      
+        'views/account_views.xml',       
+        'views/journal_views.xml',   
+        'views/account_menus.xml',     
     ],
-    
+    'assets': {},
     'installable': True,
     'application': True,
+    'auto_install': False,
 }
